@@ -8,6 +8,7 @@ public class TextReader {
 
     private final WordsCollection wordsCollection;
     private URL url;
+    private int count = 0;
 
     public TextReader(String url) {
         this.wordsCollection = new WordsCollection();
@@ -38,14 +39,15 @@ public class TextReader {
 
         while (scanner != null && scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            String[] words = line.split("[^a-zA-Z0-9_А-Яа-я]+");
+            String[] words = line.split("[^a-zA-Z0-9_А-Яа-я-]+");
 
             for (String word : words) {
-                if (word.isEmpty()) {
+                if (word.isEmpty() || word.equals("-")) {
                     continue;
                 }
 
                 word = word.toLowerCase();
+                count++;
 
                 if (wordsCollection.contains(word)) {
                     wordsCollection.incrementValue(word);
@@ -58,6 +60,7 @@ public class TextReader {
     }
 
     private void prettyListPrint(List<String> list) {
+        System.out.println(count);
         for (String line : list) {
             System.out.println(line);
         }
